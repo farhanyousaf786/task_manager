@@ -59,6 +59,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//flutter build appbundle --target-platform android-arm,android-arm64
-//flutter build apk --target-platform=android-arm
-//flutter build apk --target-platform=android-arm64
