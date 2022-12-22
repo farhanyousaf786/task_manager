@@ -931,6 +931,7 @@
 ///
 ///
 
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -970,11 +971,49 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   void initState() {
-    // Future.delayed(Duration.zero, showTutorial);
-    super.initState();
+    FacebookAudienceNetwork.init();
+    _loadInterstitialAd();
     setShowTutorial();
 
+    super.initState();
+
+
   }
+
+
+  bool _isInterstitialAdLoaded = false;
+
+  void _loadInterstitialAd() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      placementId: "1292597874911800_1293167998188121",
+      // placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617",
+      listener: (result, value) {
+        print(">> FAN > Interstitial Ad: $result --> $value");
+        if (result == InterstitialAdResult.LOADED)
+          _isInterstitialAdLoaded = true;
+
+        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == InterstitialAdResult.DISMISSED &&
+            value["invalidated"] == true) {
+          _isInterstitialAdLoaded = false;
+          _loadInterstitialAd();
+        }
+      },
+    );
+  }
+
+
+  _showInterstitialAd() {
+    if (_isInterstitialAdLoaded == true)
+      FacebookInterstitialAd.showInterstitialAd();
+    else
+      print("Interstial Ad not yet loaded!");
+  }
+
+
+
+
 
   setShowTutorial() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1427,6 +1466,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             reminderId: reminderDate != null ? id : null,
                           ),
                         );
+
+
+                        _showInterstitialAd();
+                        Fluttertoast.showToast(
+                            msg: "Task Added to Reminder List",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                         Navigator.pop(context);
                       }
                     } else {
@@ -1446,6 +1496,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               )),
                         reminderId: reminderDate != null ? id : null,
                       ));
+
+                      _showInterstitialAd();
+                      Fluttertoast.showToast(
+                          msg: "Task Added To Task List",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                       Navigator.pop(context);
                     }
                   },

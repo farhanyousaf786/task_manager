@@ -225,10 +225,10 @@
 ///
 ///
 
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -259,69 +259,6 @@ class TaskReminderList extends StatefulWidget {
 class _TaskReminderListState extends State<TaskReminderList> {
 
 
-
-  /// below is  Banner ads functionality
-  BannerAd myBanner1;
-  bool isLoaded1 = false;
-
-  void loadBannerAd() {
-    myBanner1 = BannerAd(
-        adUnitId: 'ca-app-pub-5525086149175557/6486157695',
-        size: AdSize.banner,
-        request: request,
-        listener: BannerAdListener(onAdLoaded: (ad) {
-          setState(() {
-            isLoaded1 = true;
-          });
-        }, onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-
-          print('ad failed to load ${error.message}');
-        }));
-
-    myBanner1.load();
-  }
-
-  static const AdRequest request = AdRequest();
-
-  /// below is InterstitialAd ads functionality
-
-  InterstitialAd _interstitialAd;
-
-  bool _isAdLoaded = false;
-
-  void _intAd() {
-    InterstitialAd.load(
-        adUnitId: "ca-app-pub-5525086149175557/8341067364",
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: onAdLoaded, onAdFailedToLoad: (error) {}));
-  }
-
-  void onAdLoaded(InterstitialAd ad) {
-    _interstitialAd = ad;
-    _isAdLoaded = true;
-  }
-
-
-  /// below is InterstitialAd ads functionality
-
-  InterstitialAd _interstitialAd2;
-
-  bool _isAdLoaded2 = false;
-
-  void _intAd2() {
-    InterstitialAd.load(
-        adUnitId: "a-app-pub-5525086149175557/8528769629",
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: onAdLoaded, onAdFailedToLoad: (error) {}));
-  }
-
-  void onAdLoaded2(InterstitialAd ad) {
-    _interstitialAd = ad;
-    _isAdLoaded = true;
-  }
 
 
 
@@ -355,29 +292,83 @@ class _TaskReminderListState extends State<TaskReminderList> {
 
   @override
   void initState() {
-    /// to load banner ad from google api
-    loadBannerAd();
 
-    /// To load interstitial ad from Google API
-    _intAd();
+    FacebookAudienceNetwork.init();
+    _loadInterstitialAd();
+    _showNativeBannerAd();
 
-    /// this is a timer to display ad after 20 sec of loading this class
-    Future.delayed(const Duration(seconds: 20), () {
-      /// id ad is loaded then display it w/o error
-      if (_isAdLoaded) _interstitialAd.show();
+    Future.delayed(const Duration(seconds: 35), () {
+
+      _showInterstitialAd();
+
     });
 
+    Future.delayed(const Duration(seconds: 70), () {
 
-    _intAd2();
+      _showInterstitialAd();
 
-
-    /// this is a timer to display ad after 50 sec of loading this class
-    Future.delayed(const Duration(seconds: 55), () {
-      /// id ad is loaded then display it w/o error
-      if (_isAdLoaded2) _interstitialAd2.show();
     });
-
     super.initState();
+  }
+
+
+
+
+  bool _isInterstitialAdLoaded = false;
+
+  void _loadInterstitialAd() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      placementId: "1292597874911800_1292607341577520",
+      // placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617",
+      listener: (result, value) {
+        print(">> FAN > Interstitial Ad: $result --> $value");
+        if (result == InterstitialAdResult.LOADED)
+          _isInterstitialAdLoaded = true;
+
+        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == InterstitialAdResult.DISMISSED &&
+            value["invalidated"] == true) {
+          _isInterstitialAdLoaded = false;
+          _loadInterstitialAd();
+        }
+      },
+    );
+  }
+
+
+  _showInterstitialAd() {
+    if (_isInterstitialAdLoaded == true)
+      FacebookInterstitialAd.showInterstitialAd();
+    else
+      print("Interstial Ad not yet loaded!");
+  }
+
+
+
+  Widget _currentAd = SizedBox(
+    width: 0.0,
+    height: 0.0,
+  );
+
+
+  _showNativeBannerAd() {
+    setState(() {
+      _currentAd = _nativeBannerAd();
+    });
+  }
+
+  Widget _nativeBannerAd() {
+    return FacebookNativeAd(
+      placementId: "1292597874911800_1292607214910866",
+      // placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2964953543583512",
+      adType: NativeAdType.NATIVE_BANNER_AD,
+      bannerAdSize: NativeBannerAdSize.HEIGHT_100,
+      height: 110,
+      listener: (result, value) {
+        print("Native Banner Ad: $result --> $value");
+      },
+    );
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -624,13 +615,7 @@ class _TaskReminderListState extends State<TaskReminderList> {
           left: 0.0,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: AdWidget(
-                ad: myBanner1,
-              ),
-              width: myBanner1.size.width.toDouble(),
-              height: myBanner1.size.height.toDouble(),
-            ),
+            child: _currentAd,
           ),
         )
         // Padding(
