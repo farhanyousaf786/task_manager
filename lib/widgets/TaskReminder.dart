@@ -294,16 +294,16 @@ class _TaskReminderListState extends State<TaskReminderList> {
   void initState() {
 
     FacebookAudienceNetwork.init();
-    _loadInterstitialAd();
-    _showNativeBannerAd();
+    // _loadInterstitialAd();
+    // _showNativeBannerAd();
 
-    Future.delayed(const Duration(seconds: 35), () {
+    Future.delayed(const Duration(seconds: 40), () {
 
       _showInterstitialAd();
 
     });
 
-    Future.delayed(const Duration(seconds: 70), () {
+    Future.delayed(const Duration(seconds: 120), () {
 
       _showInterstitialAd();
 
@@ -360,7 +360,7 @@ class _TaskReminderListState extends State<TaskReminderList> {
 
   Widget _nativeBannerAd() {
     return FacebookNativeAd(
-      placementId: "1292597874911800_1292607214910866",
+      placementId: "1292597874911800_1293170184854569",
       // placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2964953543583512",
       adType: NativeAdType.NATIVE_BANNER_AD,
       bannerAdSize: NativeBannerAdSize.HEIGHT_100,

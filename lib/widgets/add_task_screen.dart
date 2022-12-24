@@ -972,7 +972,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     FacebookAudienceNetwork.init();
-    _loadInterstitialAd();
+    // _loadInterstitialAd();
     setShowTutorial();
 
     super.initState();
@@ -1007,6 +1007,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   _showInterstitialAd() {
     if (_isInterstitialAdLoaded == true)
       FacebookInterstitialAd.showInterstitialAd();
+
     else
       print("Interstial Ad not yet loaded!");
   }
@@ -1468,7 +1469,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         );
 
 
-                        _showInterstitialAd();
                         Fluttertoast.showToast(
                             msg: "Task Added to Reminder List",
                             toastLength: Toast.LENGTH_SHORT,
@@ -1477,6 +1477,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             backgroundColor: Colors.red,
                             textColor: Colors.white,
                             fontSize: 16.0);
+
                         Navigator.pop(context);
                       }
                     } else {
@@ -1497,7 +1498,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         reminderId: reminderDate != null ? id : null,
                       ));
 
-                      _showInterstitialAd();
                       Fluttertoast.showToast(
                           msg: "Task Added To Task List",
                           toastLength: Toast.LENGTH_SHORT,
@@ -1506,7 +1506,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           backgroundColor: Colors.red,
                           textColor: Colors.white,
                           fontSize: 16.0);
-                      Navigator.pop(context);
+
+                         Navigator.pop(context);
                     }
                   },
                   child: Text(
