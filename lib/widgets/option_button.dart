@@ -8,10 +8,8 @@ class OptionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return ElevatedButton(
       onPressed: onPressed,
-      color: Colors.lightBlueAccent,
-      padding: EdgeInsets.symmetric(vertical: 20.0),
       child: Text(
         title,
         style: TextStyle(

@@ -1142,7 +1142,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   void showTutorial() {
     initTargets();
     tutorialCoachMark = TutorialCoachMark(
-      context,
       targets: targets,
       colorShadow: Colors.blue,
       textSkip: "Skip",
@@ -1372,8 +1371,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               child: Container(
                 height: 30,
                 padding: EdgeInsets.only(left: 80, right: 80),
-                child: FlatButton(
-                  color: Colors.green.shade600,
+                child: ElevatedButton(
                   onPressed: () async {
                     if (remindMe) {
                       if (taskController.text.isEmpty) {

@@ -795,7 +795,7 @@ class _TaskTileReminderState extends State<TaskTileReminder> {
   void showTutorial() {
     initTargets();
     tutorialCoachMark = TutorialCoachMark(
-      context,
+
       targets: targets,
       colorShadow: Colors.blue,
       textSkip: "Skip",

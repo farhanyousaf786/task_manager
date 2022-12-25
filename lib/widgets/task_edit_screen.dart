@@ -130,9 +130,8 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
                               width: 20.0,
                             ),
                             Expanded(
-                              child: FlatButton(
-                                color: Colors.lightBlueAccent.shade100
-                                    .withOpacity(0.3),
+                              child: ElevatedButton(
+
                                 onPressed: () async {
                                   newTaskReminderDate = await showDatePicker(
                                       context: context,

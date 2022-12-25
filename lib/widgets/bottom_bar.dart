@@ -98,7 +98,6 @@ class _BottomBarState extends State<BottomBar> {
   void showTutorial() {
     initTargets();
     tutorialCoachMark = TutorialCoachMark(
-      context,
       targets: targets,
       colorShadow: Colors.blue,
       textSkip: "Skip",

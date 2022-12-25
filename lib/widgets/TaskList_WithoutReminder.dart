@@ -161,14 +161,14 @@ class _TasksListState extends State<TasksList> {
                             },
                             onDismissed: (direction) {
                               taskData.deleteTask(task);
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text('Item Removed'),
-                                action: SnackBarAction(
-                                    label: 'UNDO',
-                                    onPressed: () {
-                                      taskData.addTask(task, index: index);
-                                    }),
-                              ));
+                              // Scaffold.of(context).showSnackBar(SnackBar(
+                              //   content: Text('Item Removed'),
+                              //   action: SnackBarAction(
+                              //       label: 'UNDO',
+                              //       onPressed: () {
+                              //         taskData.addTask(task, index: index);
+                              //       }),
+                              // ));
                             },
                             background: Container(
                               color: Colors.red,
