@@ -214,17 +214,16 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
                               AndroidNotificationDetails(
                                 newTaskTitle,
                                 'To Do Notification',
-                                'Do the task',
+                                // 'Do the task',
                                 priority: Priority.max,
                                 importance: Importance.max,
                                 playSound: true,
                               );
-                              var iOSPlatformChannelSpecifics =
-                              IOSNotificationDetails();
+
                               NotificationDetails platformChannelSpecifics =
                               NotificationDetails(
                                   android: androidPlatformChannelSpecifics,
-                                  iOS: iOSPlatformChannelSpecifics);
+                                  );
                               id = widget.task.reminderId != null
                                   ? widget.task.reminderId
                                   : Provider.of<TaskData>(context, listen: false)

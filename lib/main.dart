@@ -22,9 +22,8 @@ Future<void> main() async {
 
   var initializationSettingsAndroid =
       new AndroidInitializationSettings('@mipmap/ic_launcher');
-  var initializationSettingsIOS = IOSInitializationSettings();
   var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+      android: initializationSettingsAndroid, );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -62,3 +61,4 @@ class MyApp extends StatelessWidget {
 //flutter build appbundle --target-platform android-arm,android-arm64
 //flutter build apk --target-platform=android-arm
 //flutter build apk --target-platform=android-arm64
+//flutter build appbundle --release

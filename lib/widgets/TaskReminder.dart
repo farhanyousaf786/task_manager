@@ -294,16 +294,16 @@ class _TaskReminderListState extends State<TaskReminderList> {
   void initState() {
 
     FacebookAudienceNetwork.init();
-    // _loadInterstitialAd();
-    // _showNativeBannerAd();
+    _loadInterstitialAd();
+    _showNativeBannerAd();
 
-    Future.delayed(const Duration(seconds: 40), () {
+    Future.delayed(const Duration(seconds: 30), () {
 
       _showInterstitialAd();
 
     });
 
-    Future.delayed(const Duration(seconds: 120), () {
+    Future.delayed(const Duration(seconds: 60), () {
 
       _showInterstitialAd();
 

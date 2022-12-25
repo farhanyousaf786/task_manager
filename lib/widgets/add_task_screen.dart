@@ -972,7 +972,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     FacebookAudienceNetwork.init();
-    // _loadInterstitialAd();
+    _loadInterstitialAd();
     setShowTutorial();
 
     super.initState();
@@ -1403,7 +1403,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             AndroidNotificationDetails(
                           currTask,
                           'To Do Notification',
-                          'Do the task',
+                          // 'Do the task',
                           priority: Priority.max,
                           importance: Importance.max,
                           largeIcon: DrawableResourceAndroidBitmap(
@@ -1416,12 +1416,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               'notification1'),
                           playSound: true,
                         );
-                        var iOSPlatformChannelSpecifics =
-                            IOSNotificationDetails();
+
                         NotificationDetails platformChannelSpecifics =
                             NotificationDetails(
                                 android: androidPlatformChannelSpecifics,
-                                iOS: iOSPlatformChannelSpecifics);
+                                );
                         id = Provider.of<TaskData>(context, listen: false)
                             .tasks
                             .length;
@@ -1475,7 +1474,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             backgroundColor: Colors.red,
                             textColor: Colors.white,
                             fontSize: 16.0);
-
+                        _showInterstitialAd();
                         Navigator.pop(context);
                       }
                     } else {
@@ -1505,6 +1504,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           textColor: Colors.white,
                           fontSize: 16.0);
 
+                         _showInterstitialAd();
                          Navigator.pop(context);
                     }
                   },
